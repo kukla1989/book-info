@@ -1,6 +1,9 @@
 body {
   background: #f0f0f0;
   font-family: Poppins, sans-serif;
+  --main-blue: #3498db;
+  --hover-blue: #00bfff;
+  --onClick-blue: #00ffff
 }
 
 .book__name {
@@ -25,6 +28,12 @@ body {
   object-fit: contain;
   width: 400px;
   height: auto;
+
+  transition: transform 0.3s ease;
+}
+
+.book__cover:hover {
+  transform: scale(1.1);
 }
 
 .book__details {
@@ -49,16 +58,54 @@ body {
 }
 
 .book__link-author {
-  color: #3498db;
+  color: var(--main-blue);
   text-decoration: none;
 }
 
 .book__link-author:hover {
   text-decoration: underline;
+  color: var(--hover-blue)
+}
+
+.book__link-author:active {
+  color: var(--onClick-blue);
 }
 
 .book__description {
+  margin-bottom: 3px;
   max-width: 700px;
+  max-height: 150px;
+  overflow: hidden;
+  transition: max-height 0.7s;
+}
+
+.book__description--open {
+  max-height: fit-content;
+  transition: max-height 0.7s;
+}
+
+.book__more {
+  display: none;
+}
+
+.book__more {
+  padding: 5px 10px;
+  border: 0.5px solid var(--main-blue);
+
+  border-radius: 4px;
+  background-color: var(--main-blue);
+  color: white;
+  font-size: 12px;
+}
+
+.book__more:hover {
+  background-color: var(--hover-blue);
+  border-color: var(--hover-blue);
+}
+
+.book__more:active {
+  background-color: var(--onClick-blue);
+  border-color: var(--onClick-blue);
 }
 
 @media (max-width: 1023px) {
@@ -79,7 +126,8 @@ body {
   }
 
   .book__cover {
-    width: 320px;
+    width: auto;
+    max-height: 300px;
   }
 
   .book__details {
@@ -89,7 +137,7 @@ body {
   }
 }
 
-.stars {
+.book__rating {
   display: flex;
   padding: 6px 3px 0;
 }
@@ -109,8 +157,3 @@ body {
 .stars--5 > :nth-child(-n + 5) {
   background-image: url(./images/star-active.svg);
 }
-
-.stars > :nth-child(0) {
-  background: red;
-}
-

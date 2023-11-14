@@ -21,6 +21,8 @@ const book = {
 validateBook(book)
 addBookDataOnPage(book)
 addFunctionToMoreButton()
+addCommentsFromLocaleStorage()
+
 
 function addBookDataOnPage(book) {
   for (const key in book) {
@@ -38,35 +40,36 @@ function addBookDataOnPage(book) {
     }
 
     if (key === 'rating') {
-      element.classList.add(`stars--${book[key]}`)
+      element.classList.add(`stars--${book[key]}`);
 
-      continue
+      continue;
     }
 
-    element.innerHTML = book[key]
+    element.innerHTML = book[key];
   }
 }
 
 function validateBook(book) {
-  const requiredKeys = ['name', 'cover', 'author', 'rating', 'page-count', 'language', 'genre', 'date', 'description']
-  const bookKeys = Object.keys(book)
+  const requiredKeys = ['name', 'cover', 'author', 'rating', 'page-count',
+    'language', 'genre', 'date', 'description'];
+  const bookKeys = Object.keys(book);
 
   requiredKeys.forEach(requiredKey => {
     if (!bookKeys.includes(requiredKey)) {
-      throw new Error(`book should have property "${requiredKey}"`)
+      throw new Error(`book should have property "${requiredKey}"`);
     }
   })
 
-  const requiredRating = Array.from({ length: 5 }, (_, ind) => ind + 1)
+  const requiredRating = Array.from({ length: 5 }, (_, ind) => ind + 1);
   if (!requiredRating.includes(Number(book.rating))) {
-    throw new Error(`book.rating is "${book.rating}" but should be 1 || 2 || 3 || 4 || 5`)
+    throw new Error(`book.rating is "${book.rating}" but should be 1 || 2 || 3 || 4 || 5`);
   }
 
   const requiredStringKeys = requiredKeys
-    .filter(key => key !== 'rating' && key !== 'page-count' && key !== 'name')
+    .filter(key => key !== 'rating' && key !== 'page-count' && key !== 'name');
   requiredStringKeys.forEach(stringKey => {
     if (typeof book[stringKey] !== 'string') {
-      throw new Error(`book.${stringKey} is "${book[stringKey]}" but its should be string`)
+      throw new Error(`book.${stringKey} is "${book[stringKey]}" but its should be string`);
     }
   })
 }
@@ -80,15 +83,67 @@ function addFunctionToMoreButton() {
   }
 
   moreButton.onclick = function () {
-    console.log('ass')
     if(descriptionText.classList.contains("book__description--open")){
-      //shrink the box
-      descriptionText.classList.remove("book__description--open")
+      //show less text
+      descriptionText.classList.remove("book__description--open");
       moreButton.innerHTML = "SHOW MORE";
     } else {
-      //expand the box
-      descriptionText.classList.add("book__description--open")
+      //show more text
+      descriptionText.classList.add("book__description--open");
       moreButton.innerHTML = "SHOW LESS";
     }
   };
 }
+
+function addComment() {
+  const authorNameInput = document.querySelector(".comments__new-author");
+  const commentTextArea = document.querySelector(".comments__new-comment");
+  const authorName = authorNameInput.value;
+  const comment = commentTextArea.value;
+
+  if (!authorName || !comment) {
+    alert("Please fill in all fields before adding a comment.");
+    return;
+  }
+
+  let comments = JSON.parse(localStorage.getItem('comments')) || [];
+  comments.push({ authorName, comment});
+  localStorage.setItem('comments', JSON.stringify(comments));
+  addOneCommentOnPage(authorName, comment);
+
+  authorNameInput.value = "";
+  commentTextArea.value = "";
+}
+
+function addOneCommentOnPage(authorName, comment) {
+
+  const newComment = document.querySelector('.comments__comment')
+    .cloneNode(true);
+  const commentsContainer = document.querySelector('.comments');
+
+  const authorNameElement = newComment.querySelector('.comments__name');
+  const commentTextElement = newComment.querySelector('.comments__comment-text');
+
+  authorNameElement.textContent = authorName;
+  commentTextElement.textContent = comment;
+
+
+  commentsContainer.appendChild(newComment);
+}
+
+function addCommentsFromLocaleStorage() {
+  const storedComments = JSON.parse(localStorage.getItem('comments')) || [];
+  const templateComment = document.querySelector('.comments__comment');
+  const commentsContainer = document.querySelector('.comments');
+
+  storedComments.forEach(comment => {
+    const newComment = templateComment.cloneNode(true);
+    const authorNameElement = newComment.querySelector('.comments__name');
+    const commentTextElement = newComment.querySelector('.comments__comment-text');
+    authorNameElement.textContent = comment.authorName;
+    commentTextElement.textContent = comment.comment;
+
+    commentsContainer.appendChild(newComment);
+  });
+}
+

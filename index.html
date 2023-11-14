@@ -15,6 +15,8 @@
 <body>
 <h1 class="book__name"></h1>
 
+<!--section book details-->
+
 <div class="book__info">
   <img src="https://m.media-amazon.com/images/I/81jtrIKJd2L._AC_UF1000,1000_QL80_.jpg" alt="The Da Vinci Code" class="book__cover">
 
@@ -63,6 +65,33 @@
       <p class="book__description"></p>
       <button class="book__more" onclick="toggleDescription()">SHOW MORE</button>
     </div>
+  </div>
+</div>
+
+<!--section comments-->
+
+<div class="comments">
+  <h2 class="comments__title">comments</h2>
+  <form action="" class="comments__form">
+    <label>Author Name:
+      <input type="text" class="comments__new-author" name="authorName" required>
+    </label>
+      <label>Comment:
+        <textarea class="comments__new-comment" name="commentText" rows="4" required></textarea>
+      </label>
+    <button class="comments__form-submit" type="button" onclick="addComment()">Add Comment</button>
+  </form>
+
+  <div class="comments__comment">
+    <div class="comments__author-data">
+      <img src="./images/avatar.svg" alt="avatar" class="comments__avatar" typeof="svg">
+
+      <div class="comments__name">kukla roman</div>
+    </div>
+
+    <p class="comments__comment-text">
+      Lorem ipsum dolor sit amet, consectetur adipisicing elit. A ab consequatur delectus ipsa iusto molestiae nostrum omnis, optio quo veniam?
+    </p>
   </div>
 </div>
 

@@ -20,9 +20,9 @@ const book = {
 
 validateBook(book)
 addBookDataOnPage(book)
+
 addFunctionToMoreButton()
 addCommentsFromLocaleStorage()
-
 
 function addBookDataOnPage(book) {
   for (const key in book) {
@@ -129,6 +129,7 @@ function addOneCommentOnPage(authorName, comment) {
 
 
   commentsContainer.appendChild(newComment);
+  window.scrollTo(0, document.body.scrollHeight);
 }
 
 function addCommentsFromLocaleStorage() {
